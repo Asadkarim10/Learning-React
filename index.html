@@ -13,13 +13,26 @@
     <div id="content"></div>
     <script type="text/babel">
 
-//var h1 = React.createElement('h1', null, 'Hello world!') 
-ReactDOM.render(<div><h1>Hello World</h1><h2>Asad</h2></div>, document.getElementById('content'))
+//ReactDOM.render(<div><h1>Hello World</h1><h2>Asad</h2></div>, document.getElementById('content'))
 
-// ReactDOM.render(
-// React.createElement('h1', null, 'Hello world!'),
-// document.getElementById('content')
-// )
+class App extends React.Component {
+  render(){
+      return <h2>first Component</h2>
+  } 
+}
+
+class Heading extends React.Component { 
+  render() { 
+    return  <div> <h4>Name With First ,Middle and Last Name</h4>
+ <ol>Asad</ol>
+ <ol>Karim</ol>
+ <ol>Mughal</ol>
+ </div>
+}
+ }
+ let app =document.getElementById("content");
+
+ ReactDOM.render(<div><App/> <Heading/></div>, app);
     </script>
 </body>
 </html>
