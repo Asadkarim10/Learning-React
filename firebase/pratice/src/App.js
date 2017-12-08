@@ -22,8 +22,9 @@ class App extends Component {
 
   componentDidMount() {
     const self = this;
-    ref.child("myTodo").on("value", function(wayn) {
-      const data = wayn.val();
+    // ref.child("newtodo").on("value", function(wayn) {
+       ref.on("value", function(snapshot) {
+      const data = snapshot.val();
       if(data){
         let allTodos = [];
         for(let key in data){
@@ -35,12 +36,21 @@ class App extends Component {
     })
   }
 
+  delete(data){
+    const newState = this.state.allTodos;
+    if (newState.indexOf(data) > -1) {
+      newState.splice(newState.indexOf(data), 1);
+      this.setState({allTodos: newState})
+    }
+  }
+
   changeHandler(event) {
     this.setState({todo: event.target.value})
   }
 
   save() {
-    ref.child("myTodo").push({name: this.state.todo});
+    //ref.child("newtodo").push({name: this.state.todo});
+    ref.push({name: this.state.todo});
   }
 
   render() {
@@ -54,8 +64,8 @@ class App extends Component {
           <button onClick={this.save.bind(this)}>Submit</button>
           <ul>
             {this.state.allTodos.map((data, index) => {
-              console.log(data);
-             return <li key={index}>{data.name}</li>
+            
+             return <li key={index}>{data.name} <button onClick={this.delete.bind(this, data)}>Delete</button></li>
             })}
           </ul>
       </div>
