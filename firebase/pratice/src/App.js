@@ -6,62 +6,61 @@ import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 import GridListExampleSimple from './abc.js';
 import TextField from 'material-ui/TextField';
+
 const ref = firebase.database().ref();
 
 
 class App extends Component {
-  constructor(props){
-    super(props)
-    this.state= {
-      todo: "",
-      password: ""
-    };
+
+  constructor() {
+    super();
+    this.state = {
+      todo: '',
+      allTodos:[]
+    }
   }
 
- 
-componentDidMount(){      //read data from firebase 
-  ref.child("newtodos").once("value", function(snapshot) {
-    const data = snapshot.val();
-    console.log(data); 
-  } )
-}
+  componentDidMount() {
+    const self = this;
+    ref.child("myTodo").on("value", function(wayn) {
+      const data = wayn.val();
+      if(data){
+        let allTodos = [];
+        for(let key in data){
+          allTodos.push(data[key])
+        }
+        self.setState({allTodos:allTodos})
+  
+      }
+    })
+  }
 
-changeHandler(event){
-  this.setState({todo: event.target.value})
+  changeHandler(event) {
+    this.setState({todo: event.target.value})
+  }
 
-}
-
-changeHandler(event){
-  this.setState({password: event.target.value})
-
-}
-save(){
-  ref.child("newtodos").push({todo :this.state.todo})
-}
+  save() {
+    ref.child("myTodo").push({name: this.state.todo});
+  }
 
   render() {
+    
     return (
       <div className="App">
-        <AppBar
-    title="Title"
-    iconClassNameRight="muidocs-icon-navigation-expand-more"
-  />
-  <TextField
-      hintText="Text"
-      floatingLabelText="Enter Your Name"
-      floatingLabelFixed={false}
-      onChange={this.changeHandler.bind(this)}
-    /><br />
-    <TextField
-      hintText="Password Field"
-      floatingLabelText="Password"
-      type="password"
-      onChange={this.changeHandler.bind(this)}
-    /><br />  
-     <RaisedButton label="Submit" primary={true} onClick={this.save.bind(this)} />
-
-</div>
-    ) }
-  
+        <header className="App-header">
+          <h1 className="App-title">React / Firebase Integration</h1>
+          </header>
+          <input type="text" value={this.state.todo} onChange={this.changeHandler.bind(this)} /> <br /><br />
+          <button onClick={this.save.bind(this)}>Submit</button>
+          <ul>
+            {this.state.allTodos.map((data, index) => {
+              console.log(data);
+             return <li key={index}>{data.name}</li>
+            })}
+          </ul>
+      </div>
+    );
+  }
 }
+
 export default App;
