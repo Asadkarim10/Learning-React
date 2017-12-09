@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link}  from 'react-router';
+import { Link}  from 'react-router-dom';
 
 class Product extends React.Component {
 constructor(props) {
@@ -7,14 +7,14 @@ super(props)
 this.handleBuy = this.handleBuy.bind(this) 
 }
 handleBuy (event) {
-this.props.route.addToCart(this.props.params.id) 
+this.props.addToCart(this.props.params.id) 
 }
 render() {
 return (
 <div>
-<img src={this.props.route.products[this.props.params.id].src} 
-style={{ height: '80%' }} />
-<p>{this.props.route.products[this.props.params.id].title}</p>
+<img src={this.props.products[this.props.params.id].src}   
+style={{ height: '80%' }}  />
+<p>{this.props.products[this.props.params.id].title}</p>
 <Link
 to={{
 pathname: `/cart`,

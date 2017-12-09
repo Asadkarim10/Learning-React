@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link}  from 'react-router';
+import { Link}  from 'react-router-dom';
 class Modal extends React.Component {
 constructor(props) {
 super(props)
