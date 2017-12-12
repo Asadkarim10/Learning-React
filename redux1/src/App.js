@@ -1,40 +1,43 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { myStore } from './store/store';
+import { connect } from 'react-redux';
+import { setTimeout } from 'timers';
 
 class App extends Component {
-
-  constructor(){
-    super()
-    this.State= {
-      counter: 0
+  constructor() {
+    super();
+    this.state = {
+      value: ""
     }
   }
-  inCrement(e){ 
-  this.setState({
-    counter: this.state.counter + 1
-  });
-  
-}
- 
-  
-  
+  changeHandler(e) {
+    this.setState({ value: e.target.value })
+  }
+  Increment() {
+    myStore.dispatch({ type: "INCREMENT", payload: Number(this.state.value) })
+  }
+  Decrement() {
+    myStore.dispatch({ type: "DECREMENT", payload: Number(this.state.value) })
+  }
   render() {
+    console.log(this.props);
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        
-     <h2>{this.state.counter}</h2> 
-             <button onClick={this.inCrement.bind(this)}>Add Counter</button>
+        {this.props.counter}
+        <input type="text" onChange={this.changeHandler.bind(this)} value={this.state.value}/>
+        <button onClick={this.Increment.bind(this)}> Increment </button>
+        <button onClick={this.Decrement.bind(this)}>Decrement</button>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    counter: state.counter,
+    abc:state.arr
+  }
+}
+
+export default connect(mapStateToProps, null)(App);
+
